@@ -64,7 +64,13 @@ class Expiring_Posts {
 	 * @throws InvalidArgumentException Thrown on invalid expire_after.
 	 *
 	 * @param string $post_type Post type to register.
-	 * @param array  $args Arguments for the expiration.
+	 * @param array  $args {
+	 *     Arguments to add the post type.
+	 *
+	 *     @type string $action       Action to apply to the post (draft/trash/delete)
+	 *     @type int    $expire_after Number of seconds for the post to be expired after,
+	 *                                defaults to a year.
+	 * }
 	 */
 	public function add_post_type( string $post_type, array $args ) {
 		if ( ! post_type_exists( $post_type ) ) {

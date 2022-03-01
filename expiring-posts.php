@@ -20,7 +20,13 @@ Expiring_Posts\Expiring_Posts::instance();
  * Register a post type that should automatically expire.
  *
  * @param string $post_type Post type to register.
- * @param array  $args Arguments for the expiration.
+ * @param array  $args {
+ *     Arguments to add the post type.
+ *
+ *     @type string $action       Action to apply to the post (draft/trash/delete)
+ *     @type int    $expire_after Number of seconds for the post to be expired after,
+ *                                defaults to a year.
+ * }
  */
 function expiring_posts_add_post_type( string $post_type, array $args = [] ) {
 	Expiring_Posts\Expiring_Posts::instance()->add_post_type( $post_type, $args );
