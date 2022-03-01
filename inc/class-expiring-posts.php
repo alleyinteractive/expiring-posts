@@ -157,7 +157,7 @@ class Expiring_Posts {
 			$page = 1;
 
 			while ( true ) {
-				$threshold = current_time( 'U' ) - $settings['expire_after'];
+				$threshold = time() - $settings['expire_after'];
 
 				$posts_to_expire = get_posts( // phpcs:ignore WordPressVIPMinimum.Functions.RestrictedFunctions.get_posts_get_posts
 					[
