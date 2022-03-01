@@ -226,7 +226,7 @@ class Expiring_Posts {
 	 * Determine if a post is expired.
 	 *
 	 * @param WP_Post $post Post to check.
-	 * @param int    $threshold Threshold to check against.
+	 * @param int     $threshold Threshold to check against.
 	 * @return bool
 	 */
 	public function is_post_expired( WP_Post $post, int $threshold ): bool {
