@@ -16,9 +16,12 @@
     "phpunit/phpunit": "^8.5.8 || ^9.3.3"
   },
   "scripts": {
+    "lint:fix": "@phpcbf",
+    "lint": "@phpcs",
     "phpcbf": "phpcbf .",
     "phpcs": "phpcs . --runtime-set text_domain expiring-posts --runtime-set prefixes expiring_posts",
-    "phpunit": "phpunit"
+    "phpunit": "phpunit",
+    "test": "@phpunit"
   },
   "config": {
     "allow-plugins": {

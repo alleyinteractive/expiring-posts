@@ -146,13 +146,18 @@ class Expiring_Posts {
 	 * Run the expiration check.
 	 */
 	public function run_expiration_check() {
+		/**
+		 * Filter the number of posts to check per page.
+		 *
+		 * @param int $posts_per_page Number of posts to check per page.
+		 */
 		$posts_per_page = (int) apply_filters( 'expiring_posts_posts_per_page', 1000 );
 
 		foreach ( $this->post_types as $post_type => $settings ) {
 			$page = 1;
 
 			while ( true ) {
-				$threshold = time() - $settings['expire_after'];
+				$threshold = current_time( 'U' ) - $settings['expire_after'];
 
 				$posts_to_expire = get_posts( // phpcs:ignore WordPressVIPMinimum.Functions.RestrictedFunctions.get_posts_get_posts
 					[
@@ -212,9 +217,10 @@ class Expiring_Posts {
 					/**
 					 * Fired when a post is expired.
 					 *
-					 * @param int $post_id Post ID.
+					 * @param int     $post_id Post ID.
+					 * @param WP_Post $post Post object.
 					 */
-					do_action( 'expiring_posts_expired', $post_id );
+					do_action( 'expiring_posts_expired', $post_id, $post );
 				}
 			}
 		}
