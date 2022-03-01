@@ -8,6 +8,7 @@
 namespace Expiring_Posts;
 
 use InvalidArgumentException;
+use WP_Post;
 
 /**
  * Expiring Posts Manager
@@ -148,6 +149,8 @@ class Expiring_Posts {
 		$posts_per_page = (int) apply_filters( 'expiring_posts_posts_per_page', 1000 );
 
 		foreach ( $this->post_types as $post_type => $settings ) {
+			$page = 1;
+
 			while ( true ) {
 				$threshold = time() - $settings['expire_after'];
 
@@ -155,6 +158,7 @@ class Expiring_Posts {
 					[
 						'fields'                 => 'ids',
 						'ignore_sticky_posts'    => true,
+						'paged'                  => $page++,
 						'post_type'              => $post_type,
 						'posts_per_page'         => $posts_per_page,
 						'suppress_filters'       => false,
@@ -181,6 +185,11 @@ class Expiring_Posts {
 					}
 
 					// Check if the post is actually expired.
+					if ( ! $this->is_post_expired( $post, $threshold ) ) {
+						continue;
+					}
+
+					// Run the action against the expired post.
 					switch ( $settings['action'] ) {
 						case 'draft':
 							wp_update_post(
@@ -211,6 +220,32 @@ class Expiring_Posts {
 		}
 
 		$this->schedule_next_run();
+	}
+
+	/**
+	 * Determine if a post is expired.
+	 *
+	 * @param WP_Post $post Post to check.
+	 * @param int    $threshold Threshold to check against.
+	 * @return bool
+	 */
+	public function is_post_expired( WP_Post $post, int $threshold ): bool {
+		$is_expired = get_the_date( 'U', $post->ID ) < $threshold
+			&& get_the_modified_date( 'U', $post->ID ) < $threshold;
+
+		/**
+		 * Determine if a post is expired.
+		 *
+		 * @param bool    $is_expired Whether the post is expired.
+		 * @param WP_Post $post Post to check.
+		 * @param int    $threshold Threshold to check against (unix timestamp).
+		 */
+		return (bool) apply_filters(
+			'expiring_posts_is_post_expired',
+			$is_expired,
+			$post,
+			$threshold,
+		);
 	}
 
 	/**
