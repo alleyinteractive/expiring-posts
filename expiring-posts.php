@@ -23,7 +23,7 @@ Expiring_Posts\Expiring_Posts::instance();
  * @param array  $args {
  *     Arguments to add the post type.
  *
- *     @type string $action       Action to apply to the post (draft/trash/delete)
+ *     @type string $action       Action to apply to the post upon expiration: draft/trash/delete.
  *     @type int    $expire_after Number of seconds for the post to be expired after,
  *                                defaults to a year.
  * }
