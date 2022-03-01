@@ -1,0 +1,28 @@
+{
+  "name": "alleyinteractive/expiring-posts",
+  "description": "Automatically Expire Posts",
+  "type": "project",
+  "authors": [
+    {
+      "name": "Alley Interactive",
+      "email": "info@alley.co"
+    }
+  ],
+  "require-dev": {
+    "alleyinteractive/alley-coding-standards": "^0.3.0",
+    "alleyinteractive/mantle-framework": "dev-main",
+    "nunomaduro/collision": "^5.0",
+    "phpunit/phpunit": "^8.5.8 || ^9.3.3"
+  },
+  "scripts": {
+    "phpcbf": "phpcbf .",
+    "phpcs": "phpcs . --runtime-set text_domain expiring-posts --runtime-set prefixes expiring_posts",
+    "phpunit": "phpunit"
+  },
+  "config": {
+    "allow-plugins": {
+      "dealerdirect/phpcodesniffer-composer-installer": true,
+      "alleyinteractive/composer-wordpress-autoloader": true
+    }
+  }
+}
