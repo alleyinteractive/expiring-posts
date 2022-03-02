@@ -109,7 +109,7 @@ class Expiring_Posts {
 		}
 
 		// Validate the expire after value.
-		if ( ! is_int( $args['expire_after'] ) ) {
+		if ( ! is_int( $args['expire_after'] ) || $args['expire_after'] <= 0 ) {
 			throw new InvalidArgumentException(
 				sprintf(
 					/* translators: 1: expire after value */
