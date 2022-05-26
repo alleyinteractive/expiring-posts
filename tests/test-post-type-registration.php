@@ -3,9 +3,9 @@ namespace Expiring_Posts\Tests;
 
 use Expiring_Posts\Expiring_Posts;
 use InvalidArgumentException;
-use Mantle\Testing\Framework_Test_Case;
+use Mantle\Testkit\Test_Case;
 
-class Test_Post_Type_Registration extends Framework_Test_Case {
+class Test_Post_Type_Registration extends Test_Case {
 	public static function setUpBeforeClass(): void {
 		parent::setUpBeforeClass();
 

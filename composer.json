@@ -1,7 +1,7 @@
 {
   "name": "alleyinteractive/expiring-posts",
   "description": "Automatically Expire Posts",
-  "type": "project",
+  "type": "wordpress-plugin",
   "license": "GPL-2.0-or-later",
   "authors": [
     {
@@ -10,8 +10,8 @@
     }
   ],
   "require-dev": {
-    "alleyinteractive/alley-coding-standards": "^0.3.0",
-    "alleyinteractive/mantle-framework": "dev-main",
+    "alleyinteractive/alley-coding-standards": "^0.3",
+    "mantle-framework/testkit": "^0.2",
     "nunomaduro/collision": "^5.0",
     "phpunit/phpunit": "^8.5.8 || ^9.3.3"
   },
@@ -27,6 +27,9 @@
     "allow-plugins": {
       "dealerdirect/phpcodesniffer-composer-installer": true,
       "alleyinteractive/composer-wordpress-autoloader": true
+    },
+    "platform": {
+      "php": "7.4"
     }
   }
 }
