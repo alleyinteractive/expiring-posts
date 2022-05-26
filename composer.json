@@ -10,8 +10,8 @@
     }
   ],
   "require-dev": {
-    "alleyinteractive/alley-coding-standards": "^0.3.0",
-    "alleyinteractive/mantle-framework": "dev-main",
+    "alleyinteractive/alley-coding-standards": "^0.3",
+    "mantle-framework/testkit": "^0.2",
     "nunomaduro/collision": "^5.0",
     "phpunit/phpunit": "^8.5.8 || ^9.3.3"
   },
