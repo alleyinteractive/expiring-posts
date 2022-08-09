@@ -47,6 +47,36 @@ expiring_posts_add_post_type(
 );
 ```
 
+#### Register a post type to be updated after a week
+
+```php
+expiring_posts_add_post_type(
+	$post_type,
+	[
+		'action'       => 'update',
+		'expire_after' => WEEK_IN_SECONDS,
+		'update_args'  => [
+			'meta_input' => [
+				'key' => 'value',
+			],
+		],
+	],
+);
+
+// Or use a callback to define the arguments. The callback
+// is passed an instance of WP_Post.
+expiring_posts_add_post_type(
+	$post_type,
+	[
+		'action'       => 'update',
+		'expire_after' => WEEK_IN_SECONDS,
+		'update_args'  => fn ( WP_Post $post ) => [
+			'post_title' => 'Expired: ' . $post->post_title,
+		],
+	],
+);
+```
+
 By default, the post type will be set to be drafted after a year.
 
 ### Hooks
