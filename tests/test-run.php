@@ -104,6 +104,71 @@ class Test_Run extends Test_Case {
 		}
 	}
 
+	public function test_expiration_run_update() {
+		$this->expectApplied( 'expiring_posts_expired' )->once();
+
+		expiring_posts_add_post_type(
+			'expiration-test',
+			[
+				'action'       => 'update',
+				'update_args'  => [
+					'meta_input' => [
+						'_expired' => true,
+					],
+				],
+				'expire_after' => DAY_IN_SECONDS,
+			],
+		);
+
+		$expiration_date = strtotime( '1 month ago' );
+
+		$post_id = static::factory()->post->create( [
+			'post_type' => 'expiration-test',
+			'post_date' => date( 'Y-m-d H:i:s', $expiration_date ),
+			'post_date_gmt' => gmdate( 'Y-m-d H:i:s', $expiration_date ),
+			'post_modified' => date( 'Y-m-d H:i:s', $expiration_date ),
+			'post_modified_gmt' => gmdate( 'Y-m-d H:i:s', $expiration_date ),
+		] );
+
+		$this->assertEmpty( get_post_meta( $post_id, '_expired', true ) );
+
+		Expiring_Posts::instance()->run_expiration_check();
+
+		$this->assertNotEmpty( get_post_meta( $post_id, '_expired', true ) );
+	}
+
+	public function test_expiration_run_update_callback() {
+		$this->expectApplied( 'expiring_posts_expired' )->once();
+
+		expiring_posts_add_post_type(
+			'expiration-test',
+			[
+				'action'       => 'update',
+				'update_args'  => fn ( $post ) => [
+					'post_title' => 'Expired: ' . $post->post_title,
+				],
+				'expire_after' => DAY_IN_SECONDS,
+			],
+		);
+
+		$expiration_date = strtotime( '1 month ago' );
+
+		$post = static::factory()->post->create_and_get( [
+			'post_type' => 'expiration-test',
+			'post_date' => date( 'Y-m-d H:i:s', $expiration_date ),
+			'post_date_gmt' => gmdate( 'Y-m-d H:i:s', $expiration_date ),
+			'post_modified' => date( 'Y-m-d H:i:s', $expiration_date ),
+			'post_modified_gmt' => gmdate( 'Y-m-d H:i:s', $expiration_date ),
+		] );
+
+		Expiring_Posts::instance()->run_expiration_check();
+
+		$this->assertEquals(
+			"Expired: {$post->post_title}",
+			get_post( $post->ID )->post_title,
+		);
+	}
+
 	public function test_expiration_double_check() {
 		$this->expectApplied( 'expiring_posts_expired' )->never();
 		$this->expectApplied( 'expiring_posts_is_post_expired' )->times( 5 );

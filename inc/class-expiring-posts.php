@@ -67,9 +67,10 @@ class Expiring_Posts {
 	 * @param array  $args {
 	 *     Arguments to add the post type.
 	 *
-	 *     @type string $action       Action to apply to the post upon expiration: draft/trash/delete.
-	 *     @type int    $expire_after Number of seconds for the post to be expired after,
-	 *                                defaults to a year.
+	 *     @type string          $action       Action to apply to the post upon expiration: update/draft/trash/delete.
+	 *     @type int             $expire_after Number of seconds for the post to be expired after,
+	 *                                         defaults to a year.
+	 *     @type array|callable  $update_args  Arguments to update the post with upon expiration.
 	 * }
 	 */
 	public function add_post_type( string $post_type, array $args ) {
@@ -98,11 +99,11 @@ class Expiring_Posts {
 		);
 
 		// Validate the arguments for the post type.
-		if ( ! in_array( $args['action'], [ 'delete', 'draft', 'trash' ], true ) ) {
+		if ( ! in_array( $args['action'], [ 'delete', 'draft', 'trash', 'update' ], true ) ) {
 			throw new InvalidArgumentException(
 				sprintf(
 					/* translators: 1: action */
-					__( 'Invalid action for expiration (expected delete/draft/trash): %s', 'expiring-posts' ),
+					__( 'Invalid action for expiration (expected delete/draft/trash/update): %s', 'expiring-posts' ),
 					$args['action'],
 				),
 			);
@@ -116,6 +117,13 @@ class Expiring_Posts {
 					__( 'Invalid expire after value for expiration (expected integer): %s', 'expiring-posts' ),
 					$args['expire_after'],
 				),
+			);
+		}
+
+		// Throw an exception if no update arguments are provided.
+		if ( 'update' === $args['action'] && empty( $args['update_args'] ) ) {
+			throw new InvalidArgumentException(
+				__( 'Update action requires update_args', 'expiring-posts' ),
 			);
 		}
 
@@ -217,6 +225,17 @@ class Expiring_Posts {
 
 						case 'trash':
 							wp_trash_post( $post_id );
+							break;
+
+						case 'update':
+							wp_update_post(
+								array_merge(
+									[
+										'ID' => $post_id,
+									],
+									is_callable( $settings['update_args'] ) ? $settings['update_args']( $post ) : $settings['update_args'],
+								)
+							);
 							break;
 					}
 
