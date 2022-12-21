@@ -53,8 +53,7 @@ class Expiring_Posts {
 	 */
 	protected function __construct() {
 		add_action( static::CRON_HOOK, [ $this, 'run_expiration_check' ] );
-
-		$this->schedule_next_run();
+		add_action( 'init', [ $this, 'schedule_next_run' ] );
 	}
 
 	/**
@@ -282,7 +281,7 @@ class Expiring_Posts {
 	/**
 	 * Schedule the next run of the expiration check.
 	 */
-	protected function schedule_next_run() {
+	public function schedule_next_run() {
 		if ( ! wp_next_scheduled( static::CRON_HOOK ) ) {
 			/**
 			 * Filter the interval between expiration checks. A minimum of one
