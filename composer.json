@@ -6,14 +6,14 @@
   "authors": [
     {
       "name": "Alley Interactive",
-      "email": "info@alley.co"
+      "email": "info@alley.com"
     }
   ],
   "require-dev": {
-    "alleyinteractive/alley-coding-standards": "^0.3",
-    "mantle-framework/testkit": "^0.7",
+    "alleyinteractive/alley-coding-standards": "^1.0",
+    "mantle-framework/testkit": "^0.9",
     "nunomaduro/collision": "^5.0",
-    "phpunit/phpunit": "^8.5.8 || ^9.3.3"
+    "phpunit/phpunit": "^9.3.3"
   },
   "scripts": {
     "lint:fix": "@phpcbf",
@@ -29,7 +29,7 @@
       "alleyinteractive/composer-wordpress-autoloader": true
     },
     "platform": {
-      "php": "7.4"
+      "php": "8.0"
     }
   }
 }
