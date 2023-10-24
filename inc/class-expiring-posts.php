@@ -166,30 +166,49 @@ class Expiring_Posts {
 		 */
 		$posts_per_page = (int) apply_filters( 'expiring_posts_posts_per_page', 1000 );
 
+		$now = time();
+
 		foreach ( $this->post_types as $post_type => $settings ) {
 			$page = 1;
 
 			while ( true ) {
-				$threshold = time() - $settings['expire_after'];
+				$threshold = $now - $settings['expire_after'];
 
-				$posts_to_expire = get_posts( // phpcs:ignore WordPressVIPMinimum.Functions.RestrictedFunctions.get_posts_get_posts
+				/**
+				 * Filters the arguments used to query for expired posts.
+				 *
+				 * @param array $posts_to_expire_args Query arguments.
+				 * @param int   $now                  Current timestamp.
+				 */
+				$posts_to_expire_args = apply_filters(
+					'expiring_posts_query_args',
+					[
+						'ignore_sticky_posts' => true,
+						'date_query'          => [
+							[
+								'before' => gmdate( 'c', $threshold ),
+								'column' => 'post_modified_gmt',
+							],
+						],
+					],
+					$now,
+				);
+
+				// Enforce some arguments.
+				$posts_to_expire_args = array_merge(
+					$posts_to_expire_args,
 					[
 						'fields'                 => 'ids',
-						'ignore_sticky_posts'    => true,
 						'paged'                  => $page++,
 						'post_type'              => $post_type,
 						'posts_per_page'         => $posts_per_page,
 						'suppress_filters'       => false,
 						'update_post_meta_cache' => false,
 						'update_post_term_cache' => false,
-						'date_query'             => [
-							[
-								'before' => gmdate( 'c', $threshold ),
-								'column' => 'post_modified_gmt',
-							],
-						],
-					]
+					],
 				);
+
+				$posts_to_expire = get_posts( $posts_to_expire_args ); // phpcs:ignore WordPressVIPMinimum.Functions.RestrictedFunctions.get_posts_get_posts
 
 				if ( empty( $posts_to_expire ) ) {
 					break;
