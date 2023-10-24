@@ -222,7 +222,7 @@ class Expiring_Posts {
 					}
 
 					// Check if the post is actually expired.
-					if ( ! $this->is_post_expired( $post, $threshold ) ) {
+					if ( ! $this->is_post_expired( $post, $threshold, $now ) ) {
 						continue;
 					}
 
@@ -274,26 +274,29 @@ class Expiring_Posts {
 	/**
 	 * Determine if a post is expired.
 	 *
-	 * @param WP_Post $post Post to check.
+	 * @param WP_Post $post      Post to check.
 	 * @param int     $threshold Threshold to check against.
+	 * @param int     $now       Current timestamp.
 	 * @return bool
 	 */
-	public function is_post_expired( WP_Post $post, int $threshold ): bool {
+	public function is_post_expired( WP_Post $post, int $threshold, int $now ): bool {
 		$is_expired = get_the_date( 'U', $post->ID ) < $threshold
 			&& get_the_modified_date( 'U', $post->ID ) < $threshold;
 
 		/**
-		 * Determine if a post is expired.
+		 * Filters whether a post is expired.
 		 *
 		 * @param bool    $is_expired Whether the post is expired.
-		 * @param WP_Post $post Post to check.
-		 * @param int    $threshold Threshold to check against (unix timestamp).
+		 * @param WP_Post $post       Post to check.
+		 * @param int     $threshold  Threshold to check against (unix timestamp).
+		 * @param int     $now        Current timestamp.
 		 */
 		return (bool) apply_filters(
 			'expiring_posts_is_post_expired',
 			$is_expired,
 			$post,
 			$threshold,
+			$now,
 		);
 	}
 
