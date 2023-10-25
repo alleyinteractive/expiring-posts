@@ -90,6 +90,7 @@ Props:
 - `$is_expired`: `bool`  Whether the post is expired.
 - `$post`: `WP_Post` Post to check.
 - `$threshold`: `int`  Threshold to check against (unix timestamp).
+- `$now`: `int` Current timestamp.
 
 #### `expiring_posts_cron_interval`
 
@@ -103,6 +104,15 @@ Props:
 
 - `$post_id`: `int` Post ID
 - `$post`: `WP_Post` Post object.
+
+#### `expiring_posts_query_args`
+
+Filter applied to the query arguments used to find expired posts.
+
+Props:
+
+- `$args`: `array` Query arguments.
+- `$now`: `int` Current timestamp.
 
 ### Unregister a post type
 
