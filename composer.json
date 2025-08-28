@@ -24,7 +24,7 @@
     "phpcbf": "phpcbf .",
     "phpcs": "phpcs . --runtime-set text_domain expiring-posts --runtime-set prefixes expiring_posts",
     "phpunit": "phpunit",
-    "test": "@phpunit"
+    "test": ["@phpcs", "@phpunit"]
   },
   "config": {
     "allow-plugins": {
