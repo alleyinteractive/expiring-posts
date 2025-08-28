@@ -1,10 +1,19 @@
 <?php
-namespace Expiring_Posts\Tests;
+/**
+ * Expiring Posts Tests: Run Feature Test
+ *
+ * @package Expiring_Posts
+ */
+
+namespace Expiring_Posts\Tests\Feature;
 
 use Expiring_Posts\Expiring_Posts;
-use Mantle\Testkit\Test_Case;
+use Expiring_Posts\Tests\TestCase;
 
-class Test_Run extends Test_Case {
+/**
+ * A test suite for expiration run functionality.
+ */
+class RunTest extends TestCase {
 	public static function setUpBeforeClass(): void {
 		parent::setUpBeforeClass();
 

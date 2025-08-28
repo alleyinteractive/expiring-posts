@@ -7,8 +7,8 @@
     convertWarningsToExceptions="true"
     >
     <testsuites>
-        <testsuite name="create-mantle-package">
-			<directory prefix="test-" suffix=".php">./tests</directory>
+        <testsuite name="expiring-posts">
+			<directory suffix="Test.php">./tests</directory>
         </testsuite>
     </testsuites>
 </phpunit>
