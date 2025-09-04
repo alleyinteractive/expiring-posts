@@ -6,7 +6,7 @@
  * Plugin URI: https://github.com/alleyinteractive/expiring-posts
  * Update URI: https://github.com/alleyinteractive/expiring-posts
  * Description: Automatic expiration of posts.
- * Version: 0.2.0
+ * Version: 0.3.0
  * Author: Alley
  *
  * @package Expiring_Posts

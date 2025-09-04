@@ -1,11 +1,20 @@
 <?php
-namespace Expiring_Posts\Tests;
+/**
+ * Expiring Posts Tests: Post Type Registration Feature Test
+ *
+ * @package Expiring_Posts
+ */
+
+namespace Expiring_Posts\Tests\Feature;
 
 use Expiring_Posts\Expiring_Posts;
+use Expiring_Posts\Tests\TestCase;
 use InvalidArgumentException;
-use Mantle\Testkit\Test_Case;
 
-class Test_Post_Type_Registration extends Test_Case {
+/**
+ * A test suite for post type registration functionality.
+ */
+class PostTypeRegistrationTest extends TestCase {
 	public static function setUpBeforeClass(): void {
 		parent::setUpBeforeClass();
 

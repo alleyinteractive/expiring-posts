@@ -11,9 +11,12 @@
   ],
   "require-dev": {
     "alleyinteractive/alley-coding-standards": "^1.0",
-    "mantle-framework/testkit": "^0.9",
-    "nunomaduro/collision": "^5.0",
-    "phpunit/phpunit": "^9.3.3"
+    "mantle-framework/testkit": "^1.0"
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Expiring_Posts\\Tests\\": "tests"
+    }
   },
   "scripts": {
     "lint:fix": "@phpcbf",
@@ -21,15 +24,12 @@
     "phpcbf": "phpcbf .",
     "phpcs": "phpcs . --runtime-set text_domain expiring-posts --runtime-set prefixes expiring_posts",
     "phpunit": "phpunit",
-    "test": "@phpunit"
+    "test": ["@phpcs", "@phpunit"]
   },
   "config": {
     "allow-plugins": {
       "dealerdirect/phpcodesniffer-composer-installer": true,
       "alleyinteractive/composer-wordpress-autoloader": true
-    },
-    "platform": {
-      "php": "8.0"
     }
   }
 }
